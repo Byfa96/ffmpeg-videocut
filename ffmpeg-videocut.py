@@ -2,6 +2,7 @@ import subprocess
 import tkinter as tk
 from tkinter import filedialog
 from tkinter import messagebox
+import os
 
 # Función para cortar video usando FFmpeg
 def cortar_video(input_file, output_file, ss, t, modo_preciso=True):
@@ -30,7 +31,7 @@ def cortar_video(input_file, output_file, ss, t, modo_preciso=True):
 # Funciones para la GUI
 def seleccionar_archivo():
     archivo = filedialog.askopenfilename(filetypes=[("Archivos de videos", "*.mp4 *.mkv *.avi *.mov")]
-    ,initialdir="/") #Cambiar initialdir a la carpeta donde se encuentran los videos, por defecto es la actual
+    ,initialdir=".") #Cambiar initialdir a la carpeta donde se encuentran los videos, por defecto es la actual
     entrada_var.set(archivo)
 
 def cortar_video_gui():
@@ -44,6 +45,11 @@ def cortar_video_gui():
         messagebox.showerror("Error", "Por favor, completa todos los campos.")
         return
 
+    clip_dir = os.path.join(os.getcwd(), "clip")
+    os.makedirs(clip_dir, exist_ok=True)
+
+    output_file = os.path.join(clip_dir, output_file)
+
     resultado = cortar_video(input_file, output_file, ss, t, modo_preciso)
     messagebox.showinfo("Resultado", resultado)
 
@@ -56,7 +62,7 @@ entrada_var = tk.StringVar()
 salida_var = tk.StringVar()
 inicio_var = tk.StringVar(value="00:00:00")
 duracion_var = tk.StringVar(value="00:00:00")
-modo_var = tk.BooleanVar(value=True)
+modo_var = tk.BooleanVar(value=1)
 
 # Crear los widgets
 tk.Label(ventana, text="Archivo de entrada:").grid(row=0, column=0, sticky="e")
@@ -73,8 +79,8 @@ tk.Label(ventana, text="Duración (-t):").grid(row=3, column=0, sticky="e")
 tk.Entry(ventana, textvariable=duracion_var, width=20).grid(row=3, column=1)
 
 tk.Label(ventana, text="Modo:").grid(row=4, column=0, sticky="e")
-tk.Radiobutton(ventana, text="Preciso", variable=modo_var, value=True).grid(row=4, column=1, sticky="w")
-tk.Radiobutton(ventana, text="Aproximado", variable=modo_var, value=False).grid(row=4, column=1)
+tk.Radiobutton(ventana, text="Aproximado", variable=modo_var, value=1).grid(row=4, column=1, sticky="w")
+tk.Radiobutton(ventana, text="Preciso", variable=modo_var, value=0).grid(row=4, column=1)
 
 tk.Button(ventana, text="Cortar Video", command=cortar_video_gui).grid(row=5, column=1)
 
