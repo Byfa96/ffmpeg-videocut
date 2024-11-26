@@ -29,7 +29,7 @@ def cortar_video(input_file, output_file, ss, t, modo_preciso=True):
 
 # Funciones para la GUI
 def seleccionar_archivo():
-    archivo = filedialog.askopenfilename(filetypes=[("Archivos de videosss", "*.mp4 *.mkv *.avi *.mov")])
+    archivo = filedialog.askopenfilename(filetypes=[("Archivos de videos", "*.mp4 *.mkv *.avi *.mov")])
     entrada_var.set(archivo)
 
 def cortar_video_gui():
@@ -53,8 +53,8 @@ ventana.title("Cortar Videos con FFmpeg")
 # Variables de entrada
 entrada_var = tk.StringVar()
 salida_var = tk.StringVar()
-inicio_var = tk.StringVar()
-duracion_var = tk.StringVar()
+inicio_var = tk.StringVar(value="00:00:00")
+duracion_var = tk.StringVar(value="00:00:00")
 modo_var = tk.BooleanVar(value=True)
 
 # Crear los widgets
