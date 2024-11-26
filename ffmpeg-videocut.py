@@ -30,7 +30,7 @@ def cortar_video(input_file, output_file, ss, t, modo_preciso=True):
 # Funciones para la GUI
 def seleccionar_archivo():
     archivo = filedialog.askopenfilename(filetypes=[("Archivos de videos", "*.mp4 *.mkv *.avi *.mov")]
-    ,initialdir="/")
+    ,initialdir="/") #Cambiar initialdir a la carpeta donde se encuentran los videos, por defecto es la actual
     entrada_var.set(archivo)
 
 def cortar_video_gui():
